@@ -24,7 +24,7 @@ coreo_aws_advisor_alert "iam-inactive-key-no-rotation" do
   category "Access"
   suggested_action "If you regularly use the AWS access keys, we recommend that you also regularly rotate or delete them."
   level "Alert"
-  id_map "object.access_key_metadata.access_key_id"
+#   id_map "object.access_key_metadata.access_key_id"
   objectives ["users", "access_keys", "access_keys"]
   audit_objects ["", "access_key_metadata.status", "access_key_metadata.create_date"]
   call_modifiers [{}, {:user_name => "users.user_name"}, {:user_name => "users.user_name"}]
@@ -41,7 +41,7 @@ coreo_aws_advisor_alert "iam-active-key-no-rotation" do
   category "Access"
   suggested_action "If you regularly use the AWS access keys, we recommend that you also regularly rotate or delete them."
   level "Critical"
-  id_map "object.access_key_metadata.access_key_id"
+#   id_map "object.access_key_metadata.access_key_id"
   objectives ["users", "access_keys", "access_keys"]
   audit_objects ["", "access_key_metadata.status", "access_key_metadata.create_date"]
   call_modifiers [{}, {:user_name => "users.user_name"}, {:user_name => "users.user_name"}]
@@ -104,7 +104,7 @@ coreo_aws_advisor_alert "iam-no-mfa" do
   category "Security"
   suggested_action "Enable Multi-Factor Authentication for every cloud user."
   level "Critical"
-  id_map "modifiers.user_name"
+#   id_map "modifiers.user_name"
   objectives ["users", "mfa_devices"]
   formulas ["", "count"]
   call_modifiers [{}, { :user_name => "users.user_name" }]
@@ -122,7 +122,7 @@ coreo_aws_advisor_alert "iam-root-no-mfa" do
   category "Security"
   suggested_action "Enable Multi-Factor Authentication for the root cloud user."
   level "Emergency"
-  id_map "object.user"
+#   id_map "object.user"
   objectives ["credential_report"]
   formulas ["CSV[user=<root_account>]"]
   audit_objects ["object.content.mfa_active"]
@@ -139,7 +139,7 @@ coreo_aws_advisor_alert "iam-root-active-key" do
   category "Security"
   suggested_action "Replace the root Access Key with an IAM user access key, and then disable and remove the root access key."
   level "Critical"
-  id_map "object.user"
+#   id_map "object.user"
   objectives ["credential_report"]
   formulas ["CSV[user=<root_account>]"]
   audit_objects ["object.content.access_key_1_active"]
@@ -156,7 +156,7 @@ coreo_aws_advisor_alert "iam-root-active-password" do
   category "Security"
   suggested_action "Re-set your root account password, don't log in to your root account, and secure root account password in a safe place."
   level "Critical"
-  id_map "object.user"
+#   id_map "object.user"
   objectives ["credential_report"]
   formulas ["CSV[user=<root_account>]"]
   audit_objects ["object.content.password_last_used"]
@@ -173,7 +173,7 @@ coreo_aws_advisor_alert "iam-user-attached-policies" do
   category "Access"
   suggested_action "Switch all inline policies to apply to IAM groups and assign users IAMs roles."
   level "Warning"
-  id_map "modifiers.user_name"
+#   id_map "modifiers.user_name"
   objectives ["users", "user_policies"]
   formulas ["", "count"]
   call_modifiers [{}, { :user_name => "users.user_name" }]
@@ -187,11 +187,11 @@ coreo_aws_advisor_iam "advise-iam" do
   alerts ${AUDIT_AWS_IAM_ALERT_LIST}
 end
 
-=begin
-  START AWS IAM METHODS
-  JSON SEND METHOD
-  HTML SEND METHOD
-=end
+# =begin
+#   START AWS IAM METHODS
+#   JSON SEND METHOD
+#   HTML SEND METHOD
+# =end
 coreo_uni_util_notify "advise-iam-json" do
   action :nothing
   type 'email'
